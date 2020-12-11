@@ -4,20 +4,20 @@
 set -e
 shopt -s nullglob
 
-FIRST_RUN="${XDG_CONFIG_HOME}/flatpak-vscode-first-run"
-SDK_UPDATE="${XDG_CONFIG_HOME}/flatpak-vscode-sdk-update-@SDK_VERSION@"
+FIRST_RUN="${XDG_CONFIG_HOME}/flatpak-@PROGRAM_NAME@-first-run"
+SDK_UPDATE="${XDG_CONFIG_HOME}/flatpak-@PROGRAM_NAME@-sdk-update-@SDK_VERSION@"
 
 function msg() {
   echo "@PROGRAM_NAME@-wrapper: $*" >&2
 }
 
-function exec_vscode() {
-  exec "@EDITOR_BINARY@" @EDITOR_ARGS@ "$@"
+function exec_jetbrains() {
+  exec env TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}" "@EDITOR_BINARY@" "$@"
 }
 
-if [ -n "${FLATPAK_VSCODE_ENV}" ]; then
+if [ -n "${FLATPAK_JETBRAINS_ENV}" ]; then
   msg "Environment is already set up"
-  exec_vscode "$@"
+  exec_jetbrains "$@"
 fi
 
 declare -A PATH_SUBDIRS
@@ -40,10 +40,6 @@ function export_path_vars() {
     fi
   done
 }
-
-for tool_dir in /app/tools/*; do
-  export_path_vars "$tool_dir"
-done
 
 if [ "$FLATPAK_ENABLE_SDK_EXT" = "*" ]; then
   SDK=()
@@ -101,15 +97,15 @@ if [ "${FLATPAK_ISOLATE_PIP}" -ne 0 ]; then
   export PATH="$PATH:$PYTHONUSERBASE/bin"
 fi
 
-export FLATPAK_VSCODE_ENV=1
+export FLATPAK_JETBRAINS_ENV=1
 
 if [ ! -f "${FIRST_RUN}" ]; then
   touch "${FIRST_RUN}"
   touch "${SDK_UPDATE}"
-  exec_vscode "$@" "@FIRST_RUN_README@"
+  exec_jetbrains "$@" "@FIRST_RUN_README@"
 elif [ ! -f "${SDK_UPDATE}" ]; then
   touch "${SDK_UPDATE}"
-  exec_vscode "$@" "@SDK_UPDATE_README@"
+  exec_jetbrains "$@" "@SDK_UPDATE_README@"
 else
-  exec_vscode "$@"
+  exec_jetbrains "$@"
 fi

@@ -16,12 +16,7 @@ To execute commands on the host system, run inside the sandbox:
   $ flatpak-spawn --host <COMMAND>
   
 To make the Integrated Terminal automatically use the host system's shell,
-you can add this to the settings:
-
-  {
-    "terminal.integrated.shell.linux": "/usr/bin/env",
-    "terminal.integrated.shellArgs.linux": ["--", "flatpak-spawn", "--host", "bash"]
-  }
+you can modify `Settings > Tools > Terminal > Shell path` to `/usr/bin/env -- flatpak-spawn --host bash`:
 
 This flatpak provides a standard development environment (gcc, python, etc).
 To see what's available:
@@ -32,9 +27,11 @@ To see what's available:
 
 To get support for additional languages, you have to install SDK extensions, e.g.
 
-  $ flatpak install flathub org.freedesktop.Sdk.Extension.dotnet
+  $ flatpak install flathub org.freedesktop.Sdk.Extension.php74
   $ flatpak install flathub org.freedesktop.Sdk.Extension.golang
-  $ FLATPAK_ENABLE_SDK_EXT=dotnet,golang flatpak run @FLATPAK_ID@
+  $ FLATPAK_ENABLE_SDK_EXT=php74,golang flatpak run @FLATPAK_ID@
+  or to enable all of them:
+  $ FLATPAK_ENABLE_SDK_EXT="*" flatpak run @FLATPAK_ID@
 
 You can use
 

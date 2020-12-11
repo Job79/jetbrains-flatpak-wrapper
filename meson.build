@@ -1,4 +1,4 @@
-project('vscode-flatpak-wrapper')
+project('jetbrains-flatpak-wrapper')
 
 bash = find_program('bash')
 pymod = import('python')
@@ -27,15 +27,9 @@ else
 sdk_version = get_option('sdk_version')
 endif
 
-editor_args = []
-foreach arg : get_option('editor_args')
-    editor_args += '"@0@"'.format(arg)
-endforeach
-
 wrapper_data = configuration_data({
     'BASH': bash.path(),
     'EDITOR_BINARY': editor_path,
-    'EDITOR_ARGS': ' '.join(editor_args),
     'EDITOR_TITLE': get_option('editor_title'),
     'FIRST_RUN_README': join_paths(datadir, 'first_run.txt'),
     'SDK_UPDATE_README': join_paths(datadir, 'sdk_update.txt'),
@@ -50,7 +44,7 @@ readme_data = configuration_data({
     'SDK_VERSION': sdk_version
 })
 
-configure_file(input: 'vscode.sh',
+configure_file(input: 'jetbrains.sh',
                output: get_option('program_name'),
                configuration: wrapper_data,
                install_dir: get_option('bindir'),

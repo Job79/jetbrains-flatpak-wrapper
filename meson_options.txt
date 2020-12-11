@@ -1,5 +1,4 @@
 option('editor_binary', type: 'string')
-option('editor_args', type: 'array', value: [])
 option('editor_title', type: 'string', value: 'Visual Studio Code')
 option('program_name', type: 'string', value: 'code')
 option('flatpak_id', type: 'string')
