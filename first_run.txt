@@ -29,9 +29,15 @@ To get support for additional languages, you have to install SDK extensions, e.g
 
   $ flatpak install flathub org.freedesktop.Sdk.Extension.php74
   $ flatpak install flathub org.freedesktop.Sdk.Extension.golang
+
+To enable selected extensions, set FLATPAK_ENABLE_SDK_EXT environment variable
+to a comma-separated list of extension names (name is ID portion after the last dot):
+
   $ FLATPAK_ENABLE_SDK_EXT=php74,golang flatpak run @FLATPAK_ID@
-  or to enable all of them:
-  $ FLATPAK_ENABLE_SDK_EXT="*" flatpak run @FLATPAK_ID@
+
+To make this persistent, set the variable via flatpak override:
+
+  $ flatpak override --user @FLATPAK_ID@ --env=FLATPAK_ENABLE_SDK_EXT="dotnet,golang"
 
 You can use
 
