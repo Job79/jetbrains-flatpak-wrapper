@@ -15,7 +15,7 @@ function msg() {
 }
 
 function exec_jetbrains() {
-  exec env TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}" zypak-wrapper "@EDITOR_BINARY@" "$@"
+  exec env TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}" "@EDITOR_BINARY@" "$@"
 }
 
 if [ -n "${FLATPAK_JETBRAINS_ENV}" ]; then
